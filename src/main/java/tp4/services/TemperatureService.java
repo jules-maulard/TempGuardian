@@ -1,8 +1,10 @@
-package tp4;
+package tp4.services;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import tp4.WeatherException;
+
 import org.json.JSONObject;
 
 import java.io.IOException;

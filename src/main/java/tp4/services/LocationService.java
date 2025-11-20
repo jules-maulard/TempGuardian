@@ -1,4 +1,4 @@
-package tp4;
+package tp4.services;
 
 public class LocationService {
     
