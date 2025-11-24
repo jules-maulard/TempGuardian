@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class ConfigLoader {
 
-    public List<UserConfig> load(String path) throws Exception {
+    public List<UserConfig> load(String path) {
         List<UserConfig> users = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -44,6 +44,8 @@ public class ConfigLoader {
 
                 users.add(user);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return users;
