@@ -39,7 +39,7 @@ public class ConfigLoader {
 
                 UserConfig user = null;
                 for (Integer id : clientConfig.keySet()) {
-                    user = new UserConfig(allAlertsDisabled, clientConfig.get(id));
+                    user = new UserConfig(clientId, allAlertsDisabled, clientConfig.get(id));
                 }
 
                 users.add(user);
