@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class RainService {
+public class RainService implements WeatherService {
 	public double getData(double latitude, double longitude) throws WeatherException {
 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder()
