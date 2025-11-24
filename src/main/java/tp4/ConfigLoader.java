@@ -1,7 +1,6 @@
 package tp4;
 
 import tp4.model.*;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -14,6 +13,9 @@ public class ConfigLoader {
     public List<UserConfig> load(String path) {
         List<UserConfig> users = new ArrayList<>();
 
+        Map<Integer, List<AddressConfig>> addressesByClient = new HashMap<>();
+        Map<Integer, Boolean> settingsByClient = new HashMap<>();
+
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String header = br.readLine(); // ignore l'entête
 
@@ -21,29 +23,33 @@ public class ConfigLoader {
             while ((line = br.readLine()) != null) {
                 String[] t = line.split(",");
 
-                // On suppose le CSV : clientId,allAlertsDisabled,address,minTemp,maxTemp,maxWind,maxRain
-                boolean allAlertsDisabled = Boolean.parseBoolean(t[1]);
-                String address = t[2];
+                Integer clientId = Integer.parseInt(t[0].trim()); 
+                boolean allAlertsDisabled = Boolean.parseBoolean(t[1].trim());
+                String address = t[2].trim();
 
-                Integer clientId = parseDoubleOrNull(t[0]).intValue();
                 Double minTemp = parseDoubleOrNull(t[3]);
                 Double maxTemp = parseDoubleOrNull(t[4]);
                 Double maxWind = parseDoubleOrNull(t[5]);
                 Double maxRain = parseDoubleOrNull(t[6]);
 
                 Thresholds th = new Thresholds(minTemp, maxTemp, maxWind, maxRain);
-                AddressConfig addr = new AddressConfig(address, !allAlertsDisabled, th);
+                AddressConfig addr = new AddressConfig(address, allAlertsDisabled, th);
 
-                Map<Integer, List<AddressConfig>> clientConfig = new HashMap<>();
-                clientConfig.get(clientId).add(addr);
-
-                UserConfig user = null;
-                for (Integer id : clientConfig.keySet()) {
-                    user = new UserConfig(clientId, allAlertsDisabled, clientConfig.get(id));
+                if (!addressesByClient.containsKey(clientId)) {
+                    addressesByClient.put(clientId, new ArrayList<>());
                 }
+                addressesByClient.get(clientId).add(addr);
 
-                users.add(user);
+                settingsByClient.put(clientId, allAlertsDisabled);
             }
+
+            for (Integer id : addressesByClient.keySet()) {
+                List<AddressConfig> clientAddresses = addressesByClient.get(id);
+                Boolean allDisabled = settingsByClient.get(id);
+                
+                users.add(new UserConfig(id, allDisabled, clientAddresses));
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

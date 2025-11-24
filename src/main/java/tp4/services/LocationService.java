@@ -2,6 +2,7 @@ package tp4.services;
 
 import java.io.IOException;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import okhttp3.OkHttpClient;
@@ -23,20 +24,27 @@ public class LocationService {
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-			.url(String.format("https://geocode.maps.co/search?q=%s&api_key=%s", adress, apiKey))
-			.build();
+            .url(String.format("https://geocode.maps.co/search?q=%s&api_key=%s", adress, apiKey))
+            .build();
 
         try (Response response = client.newCall(request).execute()) {
-			if (!response.isSuccessful()) {
-				throw new LocationException("Unexpected response " + response);
-			}
+            if (!response.isSuccessful()) {
+                throw new LocationException("Unexpected response " + response);
+            }
 
-			JSONObject jObject = new JSONObject(response.body().string());
+            String responseBody = response.body().string();
+            JSONArray jArray = new JSONArray(responseBody);
+
+            if (jArray.length() == 0) {
+                throw new LocationException("Address not found: " + adress);
+            }
+
+            JSONObject jObject = jArray.getJSONObject(0);
             double lat = jObject.getDouble("lat");
             double lon = jObject.getDouble("lon");
-			return new double[]{ lat, lon };
-		} catch (IOException e) {
-			throw new LocationException("Received an IOException", e);
-		}
+            return new double[]{ lat, lon };
+        } catch (IOException e) {
+            throw new LocationException("Received an IOException", e);
+        }
     }
 }
