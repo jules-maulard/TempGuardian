@@ -5,11 +5,11 @@ import java.util.List;
 public class UserConfig {
 	public final boolean allAlertsDisabled;
 	public final List<AddressConfig> addresses;
-	final IAlertOutput alertOutput;
+	public final int userId;
 
-	public UserConfig(boolean allAlertsDisabled, List<AddressConfig> addresses) {
+	public UserConfig(int userId, boolean allAlertsDisabled, List<AddressConfig> addresses) {
+		this.userId = userId;
 		this.allAlertsDisabled = allAlertsDisabled;
 		this.addresses = addresses;
-		this.alertOutput = new AlertCSV(this);
 	}
 }
