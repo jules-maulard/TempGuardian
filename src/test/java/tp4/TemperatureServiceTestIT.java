@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import tp4.services.TemperatureService;
+import tp4.services.WeatherException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,7 +29,7 @@ class TemperatureServiceTestIT {
 		double longitude = -114.39476496078493;
 
 		// Act
-		double temperature = temperatureService.getTemperature(latitude, longitude);
+		double temperature = temperatureService.getData(latitude, longitude);
 
 		// Assert
 		assertTrue(temperature < 0.0d);
@@ -41,6 +42,6 @@ class TemperatureServiceTestIT {
 		double longitude = -99.0;
 
 		// Assert
-		assertThrows(WeatherException.class, () -> temperatureService.getTemperature(latitude, longitude));
+		assertThrows(WeatherException.class, () -> temperatureService.getData(latitude, longitude));
 	}
 }

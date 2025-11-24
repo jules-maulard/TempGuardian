@@ -1,4 +1,4 @@
-package tp4;
+package tp4.services;
 
 public class WeatherException extends Exception {
 	public WeatherException(String message) {

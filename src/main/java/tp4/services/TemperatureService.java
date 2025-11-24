@@ -3,14 +3,13 @@ package tp4.services;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import tp4.WeatherException;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
 
 public class TemperatureService {
-	public double getTemperature(double latitude, double longitude) throws WeatherException {
+	public double getData(double latitude, double longitude) throws WeatherException {
 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder()
 			.url(
