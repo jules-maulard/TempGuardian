@@ -6,6 +6,7 @@ import tp4.model.AddressConfig;
 import tp4.model.AlertCSV;
 import tp4.model.Thresholds;
 import tp4.model.UserConfig;
+import tp4.services.LocationException;
 import tp4.services.LocationService;
 import tp4.services.RainService;
 import tp4.services.TemperatureService;
@@ -58,20 +59,23 @@ public class AlertEngine {
                 e.printStackTrace();
             }
 
-            checkThresholds(address, temperature, wind, rain);
+            checkThresholds(user.userId, address, temperature, wind, rain);
         }
     }
 
-    private void checkThresholds(AddressConfig addr, double t, double w, double r) {
+    private void checkThresholds(Integer userId, AddressConfig addr, double t, double w, double r) {
         Thresholds th = addr.thresholds;
 
         if (th.minTemp != null && t < th.minTemp)
-            alertCSV.saveAlert("MinTemp", t, th.minTemp, new Date(), addr.address);
+            alertCSV.saveAlert(userId, "MinTemp", t, th.minTemp, new Date(), addr.address);
 
         if (th.maxTemp != null && t > th.maxTemp)
+            alertCSV.saveAlert(userId, "MaxTemp", t, th.maxTemp, new Date(), addr.address);
 
         if (th.maxWind != null && w > th.maxWind)
+            alertCSV.saveAlert(userId, "MaxWind", w, th.maxWind, new Date(), addr.address);
 
         if (th.maxRain != null && r > th.maxRain)
+            alertCSV.saveAlert(userId, "MaxRain", r, th.maxRain, new Date(), addr.address);
     }
 }

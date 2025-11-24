@@ -1,4 +1,4 @@
-package tp4;
+package tp4.services;
 
 public class LocationException extends Exception {
 	public LocationException(String message) {

@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import tp4.LocationException;
 
 public class LocationService {
     private long lastRequestTime = 0;
