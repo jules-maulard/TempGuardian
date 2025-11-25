@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class RainService implements WeatherService {
 	public double getData(double latitude, double longitude) throws WeatherException {
+		System.out.println("RainService: Fetching rain data for lat=" + latitude + ", lon=" + longitude);
 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder()
 			.url(

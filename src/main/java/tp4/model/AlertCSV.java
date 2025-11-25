@@ -6,12 +6,12 @@ import java.util.Date;
 
 public class AlertCSV {
 
-    // nom fichier CSV
-    public static final String csv_file  = "alerts.csv";
+    private String csv_file;
 
-    public AlertCSV() {
+    public AlertCSV(String csv_file) {
         // creer le fichier s'il n'existe pas
         Path path = Paths.get(csv_file);
+        this.csv_file = csv_file;
         if (!Files.exists(path)) {
             try {
                 Files.createFile(path);

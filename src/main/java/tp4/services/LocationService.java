@@ -13,6 +13,7 @@ public class LocationService {
     private long lastRequestTime = 0;
     
     public double[] translateAdresse(String adress) throws LocationException, InterruptedException {
+        System.out.println("LocationService: Translating address: " + adress);
         long now = System.currentTimeMillis();
         long interval = now - lastRequestTime;
         if (interval < 1000) {

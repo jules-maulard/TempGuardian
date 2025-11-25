@@ -32,6 +32,11 @@ public class ConfigLoader {
                 Double maxWind = parseDoubleOrNull(t[5]);
                 Double maxRain = parseDoubleOrNull(t[6]);
 
+                System.out.println("Loaded config for clientId " + clientId + ": address=" + address +
+                        ", minTemp=" + minTemp + ", maxTemp=" + maxTemp +
+                        ", maxWind=" + maxWind + ", maxRain=" + maxRain +
+                        ", allAlertsDisabled=" + allAlertsDisabled);
+
                 Thresholds th = new Thresholds(minTemp, maxTemp, maxWind, maxRain);
                 AddressConfig addr = new AddressConfig(address, allAlertsDisabled, th);
 
@@ -57,7 +62,7 @@ public class ConfigLoader {
         return users;
     }
 
-    private Double parseDoubleOrNull(String s) {
+    public static Double parseDoubleOrNull(String s) {
         return (s == null || s.isBlank()) ? null : Double.parseDouble(s);
     }
 }
